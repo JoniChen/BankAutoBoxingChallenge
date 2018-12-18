@@ -24,4 +24,9 @@ public class Customer {
 
         this.transactions.add(amount);
     }
+
+    public static Customer createContact(String name) {
+
+        return new Customer(name);
+    }
 }

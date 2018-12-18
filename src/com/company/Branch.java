@@ -7,20 +7,28 @@ public class Branch {
     private String name;
     private ArrayList<Customer> customers;
 
-    public Branch(String name) {
+    private Branch(String name) {
         this.name = name;
         this.customers = new ArrayList<>();
     }
 
+    public static Branch createBranch(String name) {
+
+        return new Branch(name);
+    }
+
+
     public boolean addCustomer(String name , Double initialDeposit) {
 
-        if (findCustomer(name)){
+        if (findCustomer(name) >= 0){
 
-            Customer newCustomer = new Customer(name);
-            this.customers.add(newCustomer);
-            newCustomer.addTransaction(initialDeposit);
+            System.out.println("Customer already exists");
+            return false;
         }
-        return false;
+        Customer newCustomer = Customer.createContact(name);
+        this.customers.add(newCustomer);
+        newCustomer.addTransaction(initialDeposit);
+        return true;
     }
 
     public ArrayList<Customer> getCustomers() {
@@ -31,15 +39,23 @@ public class Branch {
         return name;
     }
 
-    private boolean findCustomer(String name) {
+    private int findCustomer(Customer customer) {
+
+        return this.customers.indexOf(customer);
+    }
+
+    private int findCustomer(String name) {
 
         for (int i =0; i < this.customers.size(); i++) {
 
             if (this.customers.get(i).getName().equals(name)) {
 
-                return true;
+                return i;
             }
         }
-        return false;
+        return -1;
     }
+
+
+
 }
